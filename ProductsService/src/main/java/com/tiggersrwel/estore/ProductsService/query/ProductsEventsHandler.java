@@ -3,6 +3,7 @@ package com.tiggersrwel.estore.ProductsService.query;
 import com.tiggersrwel.estore.ProductsService.core.data.ProductEntity;
 import com.tiggersrwel.estore.ProductsService.core.data.ProductsRepository;
 import com.tiggersrwel.estore.ProductsService.core.events.ProductCreatedEvent;
+import com.tiggersrwel.estore.core.events.ProductReservedEvent;
 import org.axonframework.eventhandling.EventHandler;
 import org.axonframework.messaging.interceptors.ExceptionHandler;
 import org.springframework.beans.BeanUtils;
@@ -31,6 +32,13 @@ public class ProductsEventsHandler {
     public void on(ProductCreatedEvent event) {
         ProductEntity productEntity = new ProductEntity();
         BeanUtils.copyProperties(event, productEntity);
+        productsRepository.save(productEntity);
+    }
+
+    @EventHandler
+    public void on(ProductReservedEvent productReservedEvent) {
+        ProductEntity productEntity = productsRepository.findByProductId(productReservedEvent.getProductId());
+        productEntity.setQuantity(productEntity.getQuantity() - productReservedEvent.getQuantity());
         productsRepository.save(productEntity);
     }
 }
