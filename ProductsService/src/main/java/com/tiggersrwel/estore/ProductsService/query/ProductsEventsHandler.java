@@ -6,6 +6,7 @@ import com.tiggersrwel.estore.ProductsService.core.events.ProductCreatedEvent;
 import com.tiggersrwel.estore.core.events.ProductReservationCancelledEvent;
 import com.tiggersrwel.estore.core.events.ProductReservedEvent;
 import org.axonframework.eventhandling.EventHandler;
+import org.axonframework.eventhandling.ResetHandler;
 import org.axonframework.messaging.interceptors.ExceptionHandler;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
@@ -50,5 +51,10 @@ public class ProductsEventsHandler {
         int newQuantity = currentlyStoredProduct.getQuantity() + productReservationCancelledEvent.getQuantity();
         currentlyStoredProduct.setQuantity(newQuantity);
         productsRepository.save(currentlyStoredProduct);
+    }
+
+    @ResetHandler
+    public void reset() {
+        productsRepository.deleteAll();
     }
 }
