@@ -3,6 +3,7 @@ package com.tiggersrwel.estore.ProductsService.query;
 import com.tiggersrwel.estore.ProductsService.core.data.ProductEntity;
 import com.tiggersrwel.estore.ProductsService.core.data.ProductsRepository;
 import com.tiggersrwel.estore.ProductsService.core.events.ProductCreatedEvent;
+import com.tiggersrwel.estore.core.events.ProductReservationCancelledEvent;
 import com.tiggersrwel.estore.core.events.ProductReservedEvent;
 import org.axonframework.eventhandling.EventHandler;
 import org.axonframework.messaging.interceptors.ExceptionHandler;
@@ -40,5 +41,14 @@ public class ProductsEventsHandler {
         ProductEntity productEntity = productsRepository.findByProductId(productReservedEvent.getProductId());
         productEntity.setQuantity(productEntity.getQuantity() - productReservedEvent.getQuantity());
         productsRepository.save(productEntity);
+    }
+
+    @EventHandler
+    public void on(ProductReservationCancelledEvent productReservationCancelledEvent) {
+        ProductEntity currentlyStoredProduct = productsRepository.findByProductId(productReservationCancelledEvent.getProductId());
+//        currentlyStoredProduct.setQuantity(currentlyStoredProduct.getQuantity() + productReservationCancelledEvent.getQuantity());
+        int newQuantity = currentlyStoredProduct.getQuantity() + productReservationCancelledEvent.getQuantity();
+        currentlyStoredProduct.setQuantity(newQuantity);
+        productsRepository.save(currentlyStoredProduct);
     }
 }

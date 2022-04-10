@@ -127,6 +127,7 @@ public class OrderSaga {
         
         String result = null;
         try {
+//			result = commandGateway.sendAndWait(proccessPaymentCommand, 10, TimeUnit.SECONDS);
         	result = commandGateway.sendAndWait(proccessPaymentCommand);
         } catch(Exception ex) {
         	LOGGER.error(ex.getMessage());
