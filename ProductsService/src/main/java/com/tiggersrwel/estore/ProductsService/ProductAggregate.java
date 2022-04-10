@@ -16,7 +16,7 @@ import org.springframework.beans.BeanUtils;
 import javax.persistence.MapKeyColumn;
 import java.math.BigDecimal;
 
-@Aggregate
+@Aggregate(snapshotTriggerDefinition="productSnapshotTriggerDefinition")
 public class ProductAggregate {
 
     @AggregateIdentifier
