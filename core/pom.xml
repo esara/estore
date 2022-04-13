@@ -32,10 +32,36 @@
 			<artifactId>axon-spring-boot-starter</artifactId>
 			<version>4.5.9</version>
 		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/io.grpc/grpc-protobuf -->
+		<!-- to address https://nvd.nist.gov/vuln/detail/CVE-2021-22569-->
+		<dependency>
+			<groupId>io.grpc</groupId>
+			<artifactId>grpc-protobuf</artifactId>
+			<version>1.45.1</version>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.owasp</groupId>
+				<artifactId>dependency-check-maven</artifactId>
+				<version>7.0.4</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>check</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
 </project>

@@ -32,6 +32,13 @@
 			<artifactId>axon-spring-boot-starter</artifactId>
 			<version>4.5.9</version>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/io.grpc/grpc-protobuf -->
+		<!-- to address https://nvd.nist.gov/vuln/detail/CVE-2021-22569-->
+		<dependency>
+			<groupId>io.grpc</groupId>
+			<artifactId>grpc-protobuf</artifactId>
+			<version>1.45.1</version>
+		</dependency>
 		<dependency>
 			<groupId>com.tiggersrwel.estore</groupId>
 			<artifactId>core</artifactId>
@@ -41,9 +48,12 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.h2database/h2 -->
+		<!-- to address https://www.cvedetails.com/vulnerability-list/vendor_id-17893/product_id-45580/H2database-H2.html -->
 		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
+			<version>2.1.212</version>
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>
@@ -66,6 +76,18 @@
 						</exclude>
 					</excludes>
 				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.owasp</groupId>
+				<artifactId>dependency-check-maven</artifactId>
+				<version>7.0.4</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>check</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
